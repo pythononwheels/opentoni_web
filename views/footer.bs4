@@ -3,7 +3,9 @@
     <footer class="footer">
       <!--div class="container" -->
         <div class="container text-center">
-          <p class="text-muted">PythonOnWheels 2017 by khz. Open source and free for any use. 
+          <p class="text-muted">
+            <a href="http://www.opentoni.org">OpenToni</a> & <a href="http://www.pythononwheels.org">PythonOnWheels</a> 
+            2017 by khz. <a href="https://en.wikipedia.org/wiki/Open_source_model">Open source</a> AND free for any use. 
           Licence: <a href="http://choosealicense.com/licenses/mit/">MIT Licence</a>.
           </p>
         </div>
