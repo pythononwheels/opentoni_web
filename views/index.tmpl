@@ -1,0 +1,69 @@
+{% extends "base.bs4" %}
+
+{% block content %}
+    <!-- Begin page content -->
+    <div class="container">
+      <!-- The justified navigation menu is meant for single line per list item.
+           Multiple lines will require custom code not provided by Bootstrap. -->
+      
+
+      <!-- Jumbotron -->
+      <div class="row navpow">
+        <div class="col-md-2">
+          &nbsp;
+        </div>
+        <div class="col-md-8 text-left">
+          <a class="btn btn-outline-primary" href="/">home</a>
+          <a class="btn btn-outline-success" href="http://www.opentoni.org/gettingstarted">getting started</a>
+        </div>
+        <div class="col-md-2">
+            &nbsp;
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2">
+          &nbsp;
+        </div>
+        <div class="col-md-8">
+          &nbsp;
+        </div>
+        
+        <div class="col-md-2">
+          &nbsp;
+        </div>
+      </div>
+      <div class="jumbotron">
+        <a href="http://www.opentoni.org">
+          <img src={{ static_url("images/logo_stacked_220.png") }}  style="display: inline-block;" />
+        </a>
+      </div>
+      <!-- START THE FEATURETTES -->
+
+      <!--hr class="featurette-divider" -->
+      <div class="row featurette">
+        <div class="col-md-2">
+          &nbsp;
+        </div>
+        <div class="col-md-8">
+            <div class="container text-center">
+               <p class="lead"><h3>opentoni: an open source, raspberry pi based soundplayer.</h3></p>
+            </div>
+            <div>
+                <a href="/collections/index" class="btn btn-primary btn-lg btn-block">Manage Collections</a>
+                <button type="button" class="btn btn-success btn-lg btn-block">Manage Songs</button>
+                <button type="button" class="btn btn-warning btn-lg btn-block">Manage Playlists</button>
+            </div>
+        </div>
+        <div class="col-md-2">
+            &nbsp;
+          </div>
+      </div>
+       
+
+      <!-- /END THE FEATURETTES -->
+
+      <!-- Site footer -->
+      {% include "footer.bs4" %}
+
+    </div> <!-- /container -->
+{% end %}
