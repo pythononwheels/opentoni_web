@@ -5,6 +5,7 @@ import tornado.web
 import os
 import os.path
 import sys
+from werkzeug.routing import Rule, Map, _rule_re
 
 import opentoni_web.config as cfg
 from opentoni_web.powlib import merge_two_dicts
@@ -264,17 +265,48 @@ class Application(tornado.web.Application):
             # parent is the parent class of the relation
             cls_name = cls.__name__.lower()
             handlers=getattr(self.__class__, "handlers", None)
-            # BETA: this regex is added to every route to make 
-            # 1.the slash at the end optional
-            # 2.it possible to add a .format paramter.
-            # Example: route = /test -> also test.json will work
-            # Example: route = /test/([0-9]+) -> also /test/12.xml will work 
-            if cfg.beta_settings["dot_format"]:
-                fin_route = route  + r"(?:/?\.\w+)?/?"
+            if _rule_re.match(route):
+                print("adding werkzeug routre for: " + str(cls_name))
+                #
+                # compile the route using werkzeug.
+                #
+                r=Rule(route, endpoint=cls_name)
+                m = Map()
+                m.add(r)
+                c=m.bind(cfg.server_settings["host"]+":"+cfg.server_settings["host"], "/")
+                r.compile()
+                #print("r1: " +  str(r._regex.pattern))
+                pattern = r._regex.pattern.replace('^\|', "")
+                #print("r1: " +  str(pattern))
+                fin_route = pattern
+                route_tuple = (fin_route,cls, dispatch)
+                handlers.append((route_tuple,pos))
+                # now add the route for the optional format parameter
+                
+                # r=Rule(route+r".<format>", endpoint=cls_name)
+                # m = Map()
+                # m.add(r)
+                # c=m.bind(cfg.server_settings["host"]+":"+cfg.server_settings["host"], "/")
+                # r.compile()
+                # print("r1: " +  str(r._regex.pattern))
+                # pattern = r._regex.pattern.replace('^\|', "")
+                # print("r1: " +  str(pattern))
+                # fin_route = pattern
+                # route_tuple = (fin_route,cls, dispatch)
+                # handlers.append((route_tuple,pos))
             else:
-                fin_route = route
-            route_tuple = (fin_route,cls, dispatch)
-            handlers.append((route_tuple,pos))
+                # BETA: this regex is added to every route to make 
+                # 1.the slash at the end optional
+                # 2.it possible to add a .format paramter.
+                # Example: route = /test -> also test.json will work
+                # Example: route = /test/([0-9]+) -> also /test/12.xml will work 
+                if cfg.beta_settings["dot_format"]:
+                    fin_route = route  + r"(?:/?\.\w+)?/?"
+                else:
+                    fin_route = route
+
+                route_tuple = (fin_route,cls, dispatch)
+                handlers.append((route_tuple,pos))
             #print("handlers: " + str(self.handlers))
             print("ROUTING: added route for: " + cls.__name__ +  ": " + route + " -> " + fin_route)
             return cls

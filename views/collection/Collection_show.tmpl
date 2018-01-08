@@ -4,11 +4,8 @@
 
     <!-- Begin page content -->
     <div class="container">
-        <div class="jumbotron jumbotron-fluid">
-            <div class="container">
-                <h1 class="display-3">This is the <strong>{{handler_name}}</strong> show view </h1>
-                <p class="lead">See your data below:</p>
-            </div>
+        <div class="container text-center">
+            <h3>Details of the <strong>Collection</strong></h3>
         </div>
         <h2>Data:</h2>
         <table class="table table-bordered">
@@ -42,8 +39,5 @@
         <a href="/{{base_route_rest}}" class="btn btn-primary">Back to {{handler_name}}.list</a>
         <a href='/{{base_route_rest}}/{{getattr(data, "id")}}/edit'class="btn btn-warning">Edit</a>
         
-        <hr>
-        <h2>Raw: </h2>
-        {{data}}
     </div>
 {% end %}

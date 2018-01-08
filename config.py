@@ -6,9 +6,11 @@ import simplejson as json
 import opentoni_web.encoders
 import os
 import logging
+import datetime
 
 server_settings = {
-    "base_url"          :   "http://localhost",
+    "protocol"          :   "http://",
+    "host"              :   "localhost",
     "port"              :   8080,
     "debug"             :   True,
     "https"             :   False,
@@ -18,7 +20,7 @@ server_settings = {
     "login_url"         :   "/login",
     "xsrf_cookies"      :   False,
     #"log_function"      :   you can give your own log function here.
-    "cookie_secret"     :   "cbe1b84b-0286-4248-8096-d3ad0c123701"
+    "cookie_secret"     :   "3ddc787b-5d69-4842-a06a-5d4e08261333"
 }
 
 templates = {
@@ -54,6 +56,17 @@ myapp = {
 
 db_base_path = r"c:\khz\devel\opentoni_web"
 database = {
+    "default_values": {
+        "string"    :   "",
+        "integer"   :   0,
+        "float"     :   0.0,
+        "list"      :   [],
+        "boolean"   :   False,
+        "datetime"  :   datetime.datetime.utcnow(),
+        "dict"      :   {},
+        "binary"    :   None
+
+    },
     "sql"   : {
         "type"      :   "sqlite",
         "dbname"    :   r"c:\khz\devel\opentoni_web\db.sqlite",   # better leave the r to enable absolute paths with backslashes 

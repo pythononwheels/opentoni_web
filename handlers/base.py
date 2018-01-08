@@ -2,6 +2,7 @@ import tornado.web
 import tornado.escape
 import json
 from opentoni_web import config as cfg
+import os
 #from opentoni_web.models.sql.user import User
 
 
@@ -301,6 +302,10 @@ class BaseHandler(tornado.web.RequestHandler):
             # for elem in data:
             #     print("elem: " + str(type(elem)))
             viewname = self.__class__.__name__ + "_" + self.view + ".tmpl"
+            #vpath = os.path.join(cfg.templates["template_path"], str.lower(self.__class__.__name__ ))
+            vpath = str.lower(self.__class__.__name__ )
+            viewname = os.path.join(vpath, viewname)
+            print(" ... looking for view: " + viewname)
             if self.view is not None:
                 model=self.__class__.model
                 show_list=getattr(self.__class__, "show_list", [])
@@ -387,7 +392,7 @@ class BaseHandler(tornado.web.RequestHandler):
             If this error was caused by an uncaught exception 
             (including HTTPError), an exc_info triple will be available as 
             kwargs["exc_info"]. Note that this exception may not be the 
-            currentÂ exception for purposes of methods like sys.exc_info() 
+            currentÃÂ exception for purposes of methods like sys.exc_info() 
             or traceback.format_exc.
         """
         #if status_code == 404:

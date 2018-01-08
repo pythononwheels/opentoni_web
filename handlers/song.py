@@ -1,28 +1,29 @@
 #from opentoni_web.handlers.base import BaseHandler
 from opentoni_web.handlers.powhandler import PowHandler
-from opentoni_web.models.tinydb.collection import Collection as Model
+from opentoni_web.models.tinydb.song import Song as Model
 from opentoni_web.config import myapp, database
 from opentoni_web.application import app
 import simplejson as json
 import tornado.web
 
-@app.add_rest_routes("collection")
-class Collection(PowHandler):
+@app.add_route('/song/add/<uuid:collection_id>', dispatch={"get" : "add_song"})
+@app.add_rest_routes("song")
+class Song(PowHandler):
 
     # 
     # every pow handler automatically gets these RESTful routes
     # thru the @app.add_rest_routes() decorator.
     #
-    # 1  GET    /collection        #=> list
-    # 2  GET    /collection/1      #=> show
-    # 3  GET    /collection/new    #=> new
-    # 4  GET    /collection/1/edit #=> edit 
-    # 5  GET    /collection/page/1 #=> page
-    # 6  GET    /collection/search #=> search
-    # 7  PUT    /collection/1      #=> update
-    # 8  PUT    /collection        #=> update (You have to send the id as json payload)
-    # 9  POST   /collection        #=> create
-    # 10 DELETE /collection/1      #=> destroy
+    # 1  GET    /song        #=> list
+    # 2  GET    /song/1      #=> show
+    # 3  GET    /song/new    #=> new
+    # 4  GET    /song/1/edit #=> edit 
+    # 5  GET    /song/page/1 #=> page
+    # 6  GET    /song/search #=> search
+    # 7  PUT    /song/1      #=> update
+    # 8  PUT    /song        #=> update (You have to send the id as json payload)
+    # 9  POST   /song        #=> create
+    # 10 DELETE /song/1      #=> destroy
     #
 
     # standard supported http methods are:
@@ -41,26 +42,29 @@ class Collection(PowHandler):
     model=Model()
     
     # these fields will be hidden by scaffolded views:
-    hide_list=["id", "created_at", "last_updated", "num_played", "path"]
+    hide_list=["id", "created_at", "last_updated"]
+
+    def add_song(self, collection_id=None):
+        self.write(" in add_song. Got cID: " + collection_id)
 
     def show(self, id=None):
         m=Model()
         res=m.find_by_id(id)
-        self.success(message="collection show", data=res)
+        self.success(message="song show", data=res)
         
     def list(self):
         m=Model()
         res = m.get_all()  
-        self.success(message="collection, index", data=res)         
+        self.success(message="song, index", data=res)         
     
     def page(self, page=0):
         m=Model()
         res=m.page(page=int(page), page_size=myapp["page_size"])
-        self.success(message="collection page: #" +str(page), data=res )  
+        self.success(message="song page: #" +str(page), data=res )  
     
     def search(self):
         m=Model()
-        return self.error(message="collection search: not implemented yet ")
+        return self.error(message="song search: not implemented yet ")
         
     @tornado.web.authenticated
     def edit(self, id=None):
@@ -68,14 +72,14 @@ class Collection(PowHandler):
         try:
             print("  .. GET Edit Data (ID): " + id)
             res = m.find_by_id(id)
-            self.success(message="collection, edit id: " + str(id), data=res)
+            self.success(message="song, edit id: " + str(id), data=res)
         except Exception as e:
-            self.error(message="collection, edit id: " + str(id) + "msg: " + str(e) , data=None)
+            self.error(message="song, edit id: " + str(id) + "msg: " + str(e) , data=None)
 
     @tornado.web.authenticated
     def new(self):
         m=Model()
-        self.success(message="collection, new",data=m)
+        self.success(message="song, new",data=m)
 
     @tornado.web.authenticated
     def create(self):
@@ -84,10 +88,10 @@ class Collection(PowHandler):
             m=Model()
             m.init_from_json(data_json, simple_conversion=True)
             m.upsert()
-            self.success(message="collection, successfully created " + str(m.id), 
+            self.success(message="song, successfully created " + str(m.id), 
                 data=m, format="json")
         except Exception as e:
-            self.error(message="collection, error updating " + str(m.id) + "msg: " + str(e), 
+            self.error(message="song, error updating " + str(m.id) + "msg: " + str(e), 
                 data=m, format="json")
     
     @tornado.web.authenticated
@@ -100,10 +104,10 @@ class Collection(PowHandler):
         try:
             #res.tags= res.tags.split(",")
             res.upsert()
-            self.success(message="collection, successfully updated " + str(res.id), 
+            self.success(message="song, successfully updated " + str(res.id), 
                 data=res, format="json")
         except Exception as e:
-            self.error(message="collection, error updating: " + str(m.id) + "msg: " + str(e), data=data_json, format="json")
+            self.error(message="song, error updating: " + str(m.id) + "msg: " + str(e), data=data_json, format="json")
 
 
 

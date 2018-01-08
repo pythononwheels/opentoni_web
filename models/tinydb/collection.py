@@ -12,10 +12,12 @@ class Collection(TinyModel):
     # types: http://docs.python-cerberus.org/en/stable/validation-rules.html#type
     #
     schema = {
-        'title':    { 'type': 'string', 'maxlength' : 35},
-        'info' :    { 'type': 'string'},
-        'tags' :    { 'type': 'list', "default" : [] },
-        "num_played" : {"type" : "integer", "default": 0}
+        'name'  :   { 'type': 'string', 'maxlength' : 200},
+        'info'  :   { 'type': 'string'},
+        'path'  :   { 'type': 'string'},
+        'tags'  :   { 'type': 'list', "default" : [] },
+        "card_id" :   { "type" : "integer", "default" : 0 },   
+        "num_played" :   { "type" : "integer", "default" : 0 }   
         }
 
     #

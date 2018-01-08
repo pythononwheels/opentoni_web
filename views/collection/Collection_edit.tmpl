@@ -76,11 +76,9 @@
 {% block content %}
     <!-- Begin page content -->
     <div class="container">
-        <div class="jumbotron jumbotron-fluid">
-            <div class="container">
-                <h1 class="display-3">This is the <strong>{{handler_name}}</strong> edit view </h1>
-                <p class="lead">Just go Ahead and edit your data below</p>
-            </div>
+        <div class="container text-center">
+            <h3>Manage your <strong>Collections</strong></h3>
+            <p class="lead">Just go ahead an update your collection data below.</p>
         </div>
         
         <div id="message-div" role="alert">    
@@ -115,7 +113,7 @@
                                 <label for="{{key}}" class="col-2 col-form-label">{{key}}</label>
                                 <div class="col-10">
                                     <textarea  class="form-control" name="{{key}}" id="{{key}}" 
-                                        rows={{model.schema[key]["maxlength"] / 30 }}></textarea>
+                                        rows={{model.schema[key]["maxlength"] / 30 }}>{{elem.get(key)}}</textarea>
                                 </div>
                             </div>    
                             {% else %}
@@ -200,10 +198,6 @@
         <input type="submit" class="btn btn-success" id="submit_edit_form" value="Update {{handler_name}}">
 
         </form>
-        <hr>
-        <h2>Raw Data: </h2>
-        {{data}}
-        <hr>
-        Date format: {{cfg.myapp["date_format"] }} (see config.myapp["date_format"])
+
     </div>
 {% end %}

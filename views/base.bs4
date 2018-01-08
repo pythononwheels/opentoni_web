@@ -11,7 +11,7 @@
     <meta name="author" content="">
     <link rel="icon" href="../../favicon.ico">
 
-    <title>Welcome to OpenToni</title>
+    <title>Welcome to PythonOnWheels</title>
 
     <!-- Bootstrap core CSS -->
     <!--link href="../../dist/css/bootstrap.min.css" rel="stylesheet"-->
@@ -22,7 +22,7 @@
     
     <link href="{{ static_url("css/justified-nav.css") }}" rel="stylesheet">
     <link href="{{ static_url("css/prism.css") }}" rel="stylesheet">
-    <!--link href="{{ static_url("css/pow.css") }}" rel="stylesheet"-->
+    <link href="{{ static_url("css/pow.css") }}" rel="stylesheet">
     <link rel="stylesheet" href="https://rawgit.com/enyo/dropzone/master/dist/dropzone.css">
     
     {% block css %}
@@ -42,10 +42,64 @@
   <body>
 
     <!--div class="container"  -->
+     <!-- Begin page content -->
+     <div class="container">
+        <!-- The justified navigation menu is meant for single line per list item.
+             Multiple lines will require custom code not provided by Bootstrap. -->
+        
+  
+        <!-- Jumbotron -->
+        <div class="row navpow">
+          <div class="col-md-2">
+            &nbsp;
+          </div>
+          <div class="col-md-8 text-left">
+            <a class="btn btn-outline-primary" href="/">home</a>
+            <a class="btn btn-outline-success" href="http://www.opentoni.org/gettingstarted">getting started</a>
+          </div>
+          <div class="col-md-2">
+              &nbsp;
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-2">
+            &nbsp;
+          </div>
+          <div class="col-md-8">
+            &nbsp;
+          </div>
+          
+          <div class="col-md-2">
+            &nbsp;
+          </div>
+        </div>
+        <div class="jumbotron">
+          <a href="http://www.opentoni.org">
+            <img src={{ static_url("images/logo_stacked_220.png") }}  style="display: inline-block;" />
+          </a>
+        </div>
+        <!-- START THE FEATURETTES -->
+  
+        <!--hr class="featurette-divider" -->
+        <div class="row featurette">
+          <div class="col-md-2">
+              &nbsp;
+          </div>
+          <div class="col-md-8">
+            {% block content %}
 
-     {% block content %}
-
-     {% end %}
+            {% end %}
+          </div>
+          <div class="col-md-2">
+            &nbsp;
+          </div>
+        </div>
+        <!-- /END THE FEATURETTES -->
+  
+        <!-- Site footer -->
+        {% include "footer.bs4" %}
+  
+      </div> <!-- /container -->
     <!-- /div> <!-- /container -->
     
     <script src="{{ static_url("js/tether.min.js") }}"></script>

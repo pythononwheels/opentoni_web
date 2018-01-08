@@ -14,8 +14,10 @@ class Playlist(TinyModel):
     schema = {
         'name':    { 'type': 'string', 'maxlength' : 35},
         'info' :    { 'type': 'string'},
+        'path' :    { 'type': 'string'},
         'tags' :    { 'type': 'list', "default" : [] },
-        "num_played" :   { "type" : "integer", "default" : 0 }   
+        "num_played" :   { "type" : "integer", "default" : 0 },   
+        "card_id" :   { "type" : "integer", "default" : 0 }   
         }
 
     #

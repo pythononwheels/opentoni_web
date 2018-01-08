@@ -2,7 +2,7 @@ import tornado.ioloop
 import tornado.web
 from opentoni_web.handlers.base import BaseHandler
 from opentoni_web.application import app
-#
+
 # you can use regex in the routes as well:
 # (r"/([^/]+)/(.+)", ObjectHandler),
 # any regex goes. any group () will be handed to the handler 
@@ -39,12 +39,21 @@ class TestHandler(BaseHandler):
     # on HTTP GET this method will be called. See dispatch parameter.
     def test(self, index=None):
         self.write(index)
+
+
+
+@app.add_route('/werkzeug/<int:year>', dispatch={"get" : "test"})
+@app.add_route('/werkzeug/<uuid:identifier>', dispatch={"get" : "testuuid"})
+@app.add_route('/werkzeug/<uuid:identifier>.<format>', dispatch={"get" : "testuuid"})
+class WerkzeugTestHandler(BaseHandler):
+    # on HTTP GET this method will be called. See dispatch parameter.
+    def test(self, year=None):
+        self.write("I got year: " + str(year))
     
-@app.add_rest_routes("rest")
-class RestHandler(BaseHandler):
-    # on HTTP GET this method will be called. See config.py "default_rest_route"
-    def list(self):
-        self.write("REST")
+    def testuuid(self, anotherone=None, identifier=None, format="html"):
+        self.write("I got uuid: " + str(identifier)
+                    + "<hr> I got anotherone ? == " + str(anotherone)
+        )
 
 @app.add_route("/errortest", dispatch={"get" : "errortest"})
 class ErrorTestHandler(BaseHandler):

@@ -50,14 +50,14 @@ class TinyBaseModel(ModelObject):
             #print("  .. Schema is now: " + str(self.schema))
 
         # setup  the instance attributes from schema
-        for key in self.schema.keys():
-            if self.schema[key].get("default", None) != None:
-                setattr(self,key,self.schema[key].get("default"))
-                self.schema[key].pop("default", None)
-            else:
-                #print("no default for: " + str(self.schema[key]))
-                setattr(self, key, None)
-                    
+        #for key in self.schema.keys():
+        #    if self.schema[key].get("default", None) != None:
+        #        setattr(self,key,self.schema[key].get("default"))
+        #        self.schema[key].pop("default", None)
+        #    else:
+        #        #print("no default for: " + str(self.schema[key]))
+        #        setattr(self, key, None)
+        self.setup_instance_values()           
         #
         # setup values from kwargs or from init_from_<format> if format="someformat"
         # example: m = Model( data = { 'test' : 1 }, format="json")
@@ -317,6 +317,8 @@ class TinyBaseModel(ModelObject):
     def find_all(self, *criterion):
         """ Find something given a query or criterion and parameters """
         #res = self.table.all() # returns a list of tinyDB DB-Elements 
+        if criterion == ():
+            return self.get_all()
         return self.find(*criterion)
     
     def find_one(self, *criterion):
