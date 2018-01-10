@@ -13,6 +13,7 @@ server_settings = {
     "host"              :   "localhost",
     "port"              :   8080,
     "debug"             :   True,
+    "IOLoop.set_blocking_log_threshold" : 0.050,
     "https"             :   False,
     "template_path"     :   os.path.join(os.path.dirname(__file__), "views"),
     "static_url_prefix" :   "/static/",
@@ -20,7 +21,9 @@ server_settings = {
     "login_url"         :   "/login",
     "xsrf_cookies"      :   False,
     #"log_function"      :   you can give your own log function here.
-    "cookie_secret"     :   "3ddc787b-5d69-4842-a06a-5d4e08261333"
+    "cookie_secret"     :   "3ddc787b-5d69-4842-a06a-5d4e08261333",
+    "debug_print"       :   True,
+    "logging"           :   True
 }
 
 templates = {
@@ -40,6 +43,7 @@ myapp = {
             "csv"   :   opentoni_web.encoders.JsonToCsv(),
             "xml"   :   opentoni_web.encoders.JsonToXml()
     },
+    "upload_path"       :   os.path.join(server_settings["static_path"], "upload"),
     "page_size"         :   5,
     "enable_authentication"     :   False,   # False, simple or custom
     "sql_auto_schema"   :   True,

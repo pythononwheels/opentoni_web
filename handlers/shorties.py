@@ -2,6 +2,7 @@ import tornado.ioloop
 import tornado.web
 from opentoni_web.handlers.base import BaseHandler
 from opentoni_web.application import app
+from tornado import gen
 
 # you can use regex in the routes as well:
 # (r"/([^/]+)/(.+)", ObjectHandler),
@@ -25,8 +26,9 @@ class ThanksHandler(BaseHandler):
 @app.add_route("/", pos=1)
 class IndexdHandler(BaseHandler):
     def get(self, index=None):
-        print(" Calling IndexHandler from handlers/shorties.py: parameter index: " + str(index))
+        #print(" Calling IndexHandler from handlers/shorties.py: parameter index: " + str(index))
         self.render("index.tmpl")
+        
 
 # this will be the last route since it has the lowest pos.
 @app.add_route(".*", pos=0)
@@ -37,6 +39,8 @@ class ErrorHandler(BaseHandler):
 @app.add_route("/test/([0-9]+)*", dispatch={"get" : "test"})
 class TestHandler(BaseHandler):
     # on HTTP GET this method will be called. See dispatch parameter.
+    @tornado.web.asynchronous
+    @tornado.gen.engine
     def test(self, index=None):
         self.write(index)
 

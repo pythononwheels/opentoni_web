@@ -13,7 +13,7 @@ class Song(TinyModel):
     #
     schema = {
         'title':    { 'type': 'string', 'maxlength' : 35},
-        'language' :  { 'type': 'string', "allowed" : ["cs", "de", "en", "fr", "fi", "nl", "us", "hu", "it", "pl"]},
+        'language' :  { 'type': 'string', "allowed" : ["cs", "de", "en", "fr", "fi", "nl", "us", "hu", "it", "pl"], "default":"de"},
         'info' :    { 'type': 'string'},
         'tags' :    { 'type': 'list', "default" : [] },
         "num_played" :   { "type" : "integer", "default" : 0 },  

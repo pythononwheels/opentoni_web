@@ -10,7 +10,7 @@ import os.path
 import sys
 
 from opentoni_web.config import server_settings as app_settings
-from opentoni_web.config import myapp 
+from opentoni_web.config import myapp
 from opentoni_web.config import database as db_settings
 from opentoni_web.powlib import merge_two_dicts
 from opentoni_web.application import Application, log_handler
@@ -24,26 +24,28 @@ def main(stdout=False):
     #from tornado.log import enable_pretty_logging
     #enable_pretty_logging()
     #print(dir(tornado.options.options))
+    if app_settings["logging"]:
+        tornado.options.options.log_file_prefix = myapp["logfile"]
+        tornado.options.options.log_file_num_backups=5
+        # size of a single logfile
+        tornado.options.options.log_file_max_size = 10 * 1000 * 1000
+        
+        tornado.options.parse_command_line()
 
-    tornado.options.options.log_file_prefix = myapp["logfile"]
-    tornado.options.options.log_file_num_backups=5
-    # size of a single logfile
-    tornado.options.options.log_file_max_size = 10 * 1000 * 1000
-    
-    tornado.options.parse_command_line()
+        gen_logger = logging.getLogger("tornado.general")
+        gen_logger.addHandler(log_handler)
 
-    gen_logger = logging.getLogger("tornado.general")
-    gen_logger.addHandler(log_handler)
-
-    access_logger = logging.getLogger("tornado.access")
-    access_logger.addHandler(log_handler)
-    #print(access_logger.handlers)
-    #for elem in access_logger.handlers:
-    #    print(dir(elem))
+        access_logger = logging.getLogger("tornado.access")
+        access_logger.addHandler(log_handler)
+        #print(access_logger.handlers)
+        #for elem in access_logger.handlers:
+        #    print(dir(elem))
 
 
-    app_logger = logging.getLogger("tornado.application")
-    app_logger.addHandler(log_handler)
+        app_logger = logging.getLogger("tornado.application")
+        app_logger.addHandler(log_handler)
+    else:
+        tornado.options.options.logging = None
 
     #app = tornado.web.Application(handlers=routes, **app_settings)
     if stdout:
@@ -72,7 +74,10 @@ def main(stdout=False):
         print("running...")
     http_server = tornado.httpserver.HTTPServer(app)
     http_server.listen(app_settings["port"])
-    tornado.ioloop.IOLoop.instance().start()
+    ioloop = tornado.ioloop.IOLoop.instance()
+    if app_settings["IOLoop.set_blocking_log_threshold"]:
+        ioloop.set_blocking_log_threshold( app_settings["IOLoop.set_blocking_log_threshold"])
+    ioloop.start()
     
 
 if __name__ == "__main__":

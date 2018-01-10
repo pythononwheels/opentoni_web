@@ -1,12 +1,13 @@
 #from opentoni_web.handlers.base import BaseHandler
 from opentoni_web.handlers.powhandler import PowHandler
 from opentoni_web.models.tinydb.song import Song as Model
-from opentoni_web.config import myapp, database
+from opentoni_web.config import myapp, database, server_settings
 from opentoni_web.application import app
 import simplejson as json
 import tornado.web
+import os
 
-@app.add_route('/song/add/<uuid:collection_id>', dispatch={"get" : "add_song"})
+@app.add_route('/song/add/<uuid:collection_id>', dispatch={"post" : "add_song"})
 @app.add_rest_routes("song")
 class Song(PowHandler):
 
@@ -45,7 +46,18 @@ class Song(PowHandler):
     hide_list=["id", "created_at", "last_updated"]
 
     def add_song(self, collection_id=None):
-        self.write(" in add_song. Got cID: " + collection_id)
+        print("Song.add_song: Add song to collection:" + str(collection_id))
+        
+        file1 = self.request.files['file'][0]
+        original_fname = file1['filename']
+        extension = os.path.splitext(original_fname)[1]
+        #fname = ''.join(random.choice(string.ascii_lowercase + string.digits) for x in range(6))
+        final_filename= original_fname+extension
+        final_filename = os.path.join(myapp["upload_path"], final_filename)
+        output_file = open( final_filename, 'wb')
+        output_file.write(file1['body'])
+        self.finish("file" + final_filename + " is uploaded")
+        #self.write(" in add_song. Got cID: " + collection_id)
 
     def show(self, id=None):
         m=Model()

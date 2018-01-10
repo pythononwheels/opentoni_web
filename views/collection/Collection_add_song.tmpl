@@ -1,0 +1,71 @@
+{% extends ../base.bs4 %}
+
+{% block include_js %}
+    <script
+			  src="https://code.jquery.com/jquery-2.2.4.js"
+			  integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI="
+			  crossorigin="anonymous">
+    </script>
+		
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.serializeJSON/2.8.1/jquery.serializejson.js"></script>
+{% end %}
+
+{% block js %}
+
+<script>
+    $(document).ready(function(){   
+        // "myAwesomeDropzone" is the camelized version of the HTML element's ID
+        Dropzone.options.opentoniDropzone = {
+            paramName: "file", // The name that will be used to transfer the file
+            maxFilesize: 2, // MB
+            maxFiles: 1,
+            acceptedMimeTypes: "audio/mpeg,audio/mp3" //see: www.dropzonejs.com/#configuration
+        };
+ 
+    });
+</script>
+{% end %}
+
+{% block content %}
+<!-- Begin page content -->
+<div class="container">
+    <div class="container text-center">
+        <h3>Just drop mp3 files below to upload</h3>
+        <p class="lead"><strong>Collection: {{data.get("name")}}</strong></p>
+    </div>
+    <div class="container">
+        <form action="/song/add/{{data.get("id")}}"
+            class="dropzone"
+            id="opentoni-dropzone"></form>
+    </div>
+    <br>
+    <h3>below you can find all current songs in this collection:</h3> 
+    <br>
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover">
+            <thead class="thead-inverse">
+                <tr>
+                    {% for key in songmodel.schema.keys() %}
+                        {% if key not in song_hide_list %}
+                            <th>{{key}}</th>
+                        {% end %}
+                    {% end %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for elem in songs %}
+                    <tr id="{{elem.get("id")}}">
+                        {% for key in elem.schema.keys() %}
+                            {% if key not in song_hide_list %}
+                                <td>{{getattr(elem, key)}}</td>
+                            {% end %}  
+                        {% end %}
+                    </tr>   
+                                
+                {% end %}
+            </tbody>
+        </table>
+    </div> <!-- div class=table-responsive-->
+    
+</div>
+{% end %}

@@ -1,11 +1,13 @@
 #from opentoni_web.handlers.base import BaseHandler
 from opentoni_web.handlers.powhandler import PowHandler
 from opentoni_web.models.tinydb.collection import Collection as Model
+from opentoni_web.models.tinydb.song import Song
 from opentoni_web.config import myapp, database
 from opentoni_web.application import app
 import simplejson as json
 import tornado.web
 
+@app.add_route('/collection/addsong/<uuid:collection_id>', dispatch={"get" : "add_song"})
 @app.add_rest_routes("collection")
 class Collection(PowHandler):
 
@@ -42,6 +44,16 @@ class Collection(PowHandler):
     
     # these fields will be hidden by scaffolded views:
     hide_list=["id", "created_at", "last_updated", "num_played", "path"]
+    
+    
+    def add_song(self, collection_id=None):
+        s=Song()
+        songs=s.find(s.Query.collection_id == collection_id)
+        m=Model()
+        me = m.find_by_id(collection_id)
+        #self.write(collection_id)
+        song_hide_list=["id", "created_at", "last_updated", "num_played", "path", "collection_id"]
+        self.success(message="collection show", data=me, songs=songs, songmodel=Song(), song_hide_list=song_hide_list)
 
     def show(self, id=None):
         m=Model()
