@@ -64,3 +64,6 @@ class ErrorTestHandler(BaseHandler):
     # on HTTP GET this method will be called. See dispatch parameter.
     def errortest(self):
         self.error(message="ERRORTEST", data=[])
+
+
+

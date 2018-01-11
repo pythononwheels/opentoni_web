@@ -43,21 +43,40 @@ class Song(PowHandler):
     model=Model()
     
     # these fields will be hidden by scaffolded views:
-    hide_list=["id", "created_at", "last_updated"]
+    hide_list=["id", "created_at", "last_updated", "collection_id"]
 
     def add_song(self, collection_id=None):
         print("Song.add_song: Add song to collection:" + str(collection_id))
+        print(self.request.body)
+        print(self.get_body_argument("testfield", default=None, strip=False))
+        song=Song()
+        try:
+            file1 = self.request.files['file'][0]
+            #for key in file1.keys():
+            #    print("key=>" + str(key))
+            original_fname = file1['filename']
+            # name the song the same as the filename
+            songtitle=os.path.splitext(original_fname)[0]
+            songtitle=songtitle.replace(" ", "_")
+            song.title=songtitle
+            song.language="en"
+            song_info=songtitle
+            song.tags=[]
+            song.num_played=0
+            song.collection_id=collection_id
+            
+            extension = os.path.splitext(original_fname)[1]
+            #fname = ''.join(random.choice(string.ascii_lowercase + string.digits) for x in range(6))
+            final_filename= original_fname
+            final_filename = os.path.join(myapp["upload_path"], final_filename)
+            output_file = open( final_filename, 'wb')
+            output_file.write(file1['body'])
+            self.success(message=" final_filename is uploaded", format="json")
+        except: 
+            self.error(message=" Error uploading final_filename", format="json")
+        finally:
+            song.upsert()
         
-        file1 = self.request.files['file'][0]
-        original_fname = file1['filename']
-        extension = os.path.splitext(original_fname)[1]
-        #fname = ''.join(random.choice(string.ascii_lowercase + string.digits) for x in range(6))
-        final_filename= original_fname+extension
-        final_filename = os.path.join(myapp["upload_path"], final_filename)
-        output_file = open( final_filename, 'wb')
-        output_file.write(file1['body'])
-        self.finish("file" + final_filename + " is uploaded")
-        #self.write(" in add_song. Got cID: " + collection_id)
 
     def show(self, id=None):
         m=Model()

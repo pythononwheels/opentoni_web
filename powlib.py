@@ -6,7 +6,32 @@ import logging
 import copy
 from sqlalchemy import Column, Integer, String, Date, DateTime, Float
 from sqlalchemy import Unicode, Text, Boolean, Numeric, BigInteger, LargeBinary
+from opentoni_web.config import myapp
 
+def get_and_write_file( request , out_dir=myapp["upload_path"] , out_name=None, out_ext=None, random_name=False):
+    """
+        extracts a file from the given (usually POST) request and stores is in the given
+        out_dir with the name: out_name.out_ext.
+        Gives a random name (uuid) if random_name = True (overrides out_name.ouit_ext)
+    """
+    try:
+        file1 = request.files['file'][0]
+        #for key in file1.keys():
+        #    print("key=>" + str(key))
+        if random_name:
+            pass
+        elif out_name and out_ext:
+            original_fname = file1['filename']
+            extension = os.path.splitext(original_fname)[1]
+            #fname = ''.join(random.choice(string.ascii_lowercase + string.digits) for x in range(6))
+            final_filename= original_fname+extension
+            final_filename = os.path.join(myapp["upload_path"], final_filename)
+            output_file = open( final_filename, 'wb')
+            output_file.write(file1['body'])
+        
+        self.success(message=" Error uploading final_filename", format="json")
+    except: 
+        self.error(message=" final_filename is uploaded", format="json")
 
 def make_logger(name, level, handler, format=None, logfile=None):
     """

@@ -1,4 +1,4 @@
-{% extends ../base.bs4 %}
+{% extends ../base_small.bs4 %}
 
 {% block include_js %}
     <script
@@ -75,12 +75,12 @@
 
 {% block content %}
     <!-- Begin page content -->
-    <div class="container">
-        <div class="jumbotron jumbotron-fluid">
-            <div class="container">
-                <h1 class="display-3">This is the <strong>{{handler_name}}</strong> edit view </h1>
-                <p class="lead">Just go Ahead and edit your data below</p>
-            </div>
+    <div class="container text-center">
+            <h3>Manage your <strong>Songs</strong></h3>
+            <p class="lead">Just go ahead an update your Song data below.</p>
+        </div>
+        
+        <div id="message-div" role="alert">    
         </div>
         
         <div id="message-div" role="alert">    
@@ -200,10 +200,6 @@
         <input type="submit" class="btn btn-success" id="submit_edit_form" value="Update {{handler_name}}">
 
         </form>
-        <hr>
-        <h2>Raw Data: </h2>
-        {{data}}
-        <hr>
-        Date format: {{cfg.myapp["date_format"] }} (see config.myapp["date_format"])
+        
     </div>
 {% end %}

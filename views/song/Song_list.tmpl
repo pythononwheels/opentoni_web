@@ -1,4 +1,4 @@
-{% extends ../base.bs4 %}
+{% extends ../base_small.bs4 %}
 
 {% block include_js %}
     <script
@@ -53,14 +53,15 @@
 {% block content %}
 <!-- Begin page content -->
 <div class="container">
-    <div class="jumbotron jumbotron-fluid">
-        <div class="container">
-            <h1 class="display-3">This is the <strong>{{handler_name}}</strong> list view </h1>
-            <p class="lead">Just go Ahead and show, edit or delete your data below using the action links.</p>
-            <p class="lead">Of course you can also <a href="{{base_route_rest}}/new" class="btn btn-success">
-            Create</a> a new {{model_name}} here.</p>
-        </div>
-    </div>
+        <div class="container text-center">
+                <h3>Manage your <strong>Songs</strong></h3>
+                <p class="lead">To add songs, please use the 
+                        <a href="/collection" class="btn btn-primary btn-lg btn-block">
+                            <span class="oi oi-grid-three-up" title="icon name" aria-hidden="true"></span>
+                            Manage Collections</a>
+                    <strong>add songs</strong> button.
+                </p>
+            </div>
     <div class="table-responsive">
         <table class="table table-bordered table-hover">
             <thead class="thead-inverse">
@@ -83,10 +84,10 @@
                             <td>{{getattr(elem, key)}}</td>
                         {% end %}  
                     {% end %}
-                    <td>                           
+                    <!--td>                           
                         <span class="glyphicon glyphicon-star" aria-hidden="true"></span> 
                         <a href='/{{base_route_rest}}/{{getattr(elem, "id")}}' class="btn btn-primary">Show</a>
-                    </td>
+                    </td-->
                     <td>
                         <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
                         <a href='/{{base_route_rest}}/{{getattr(elem, "id")}}/edit'class="btn btn-warning">Edit</a>
@@ -108,11 +109,6 @@
             </tbody>
         </table>
     </div> <!-- div class=table-responsive-->
-    <hr>
-    <h2>Info: </h2>
-    <hr>
-    <b>ModelClass:</b> {{ str(type(model)) }}
-    <hr>
-base route rest: {{base_route_rest}}
+    
 </div>
 {% end %}

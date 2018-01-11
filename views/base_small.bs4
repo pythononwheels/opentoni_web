@@ -55,7 +55,7 @@
           </div>
           <div class="col-md-8 text-left">
             <a class="btn btn-outline-primary" href="/">home</a>
-            <a class="btn btn-outline-success" href="http://www.opentoni.org/">getting started</a>
+            <a class="btn btn-outline-success" href="http://www.opentoni.org/gettingstarted">getting started</a>
           </div>
           <div class="col-md-2">
               &nbsp;
@@ -75,22 +75,22 @@
         </div>
         <div class="jumbotron">
           <a href="http://www.opentoni.org">
-            <img src={{ static_url("images/logo_stacked_220.png") }}  style="display: inline-block;" />
+            <img src={{ static_url("images/logo_full_eight_70.png") }}  style="display: inline-block;" />
           </a>
         </div>
         <!-- START THE FEATURETTES -->
   
         <!--hr class="featurette-divider" -->
-        <div class="row">
-          <div class="col-md-1">
+        <div class="row featurette">
+          <div class="col-md-2">
               &nbsp;
           </div>
-          <div class="col-md-10">
+          <div class="col-md-8">
             {% block content %}
 
             {% end %}
           </div>
-          <div class="col-md-1">
+          <div class="col-md-2">
             &nbsp;
           </div>
         </div>

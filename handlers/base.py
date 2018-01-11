@@ -297,7 +297,7 @@ class BaseHandler(tornado.web.RequestHandler):
 
 
     def success(self, message=None, data=None, succ=None, prev=None,
-        http_code=200, format=None, encoder=None, **kwargs):
+        http_code=200, format=None, encoder=None, model=None, **kwargs ):
         """
             returns data and http_code.
             data will be converted to format.  (std = json)
@@ -306,6 +306,13 @@ class BaseHandler(tornado.web.RequestHandler):
 
             data input is model or list of models.
         """
+        try:
+            if model:
+                model = model
+            else:
+                model=self.model
+        except:
+            raise("No Model found in handler or as a paramter to handler.success.")
         self.application.log_request(self, message="base.success:" + message)
         self.set_status(http_code)
         if not format:
@@ -325,7 +332,7 @@ class BaseHandler(tornado.web.RequestHandler):
             if cfg.server_settings["debug_print"]:
                 print(" ... looking for view: " + viewname)
             if self.view is not None:
-                model=self.__class__.model
+                #model=self.__class__.model
                 show_list=getattr(self.__class__, "show_list", [])
                 hide_list=getattr(self.__class__, "hide_list", [])
                 return self.render( viewname, data=data, message=message, 
@@ -340,7 +347,8 @@ class BaseHandler(tornado.web.RequestHandler):
         # the encoders can convert json to any requested target format.
         # 
         if not data == None:
-            data = self.model.res_to_json(data)
+            data = model.res_to_json(data)
+            
         if encoder:
             encoder = encoder
         else:

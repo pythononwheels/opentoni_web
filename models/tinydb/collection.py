@@ -15,6 +15,7 @@ class Collection(TinyModel):
         'name'  :   { 'type': 'string', 'maxlength' : 200},
         'info'  :   { 'type': 'string'},
         'path'  :   { 'type': 'string'},
+        'type'  :   { 'type': 'string', "allowed" : ["random", "random_playlist", "recursice", "song", "playlist"]},
         'tags'  :   { 'type': 'list', "default" : [] },
         "card_id" :   { "type" : "integer", "default" : 0 },   
         "num_played" :   { "type" : "integer", "default" : 0 }   
