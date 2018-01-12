@@ -29,14 +29,8 @@
       
     {% end %}
 
-    {% block include_js %}
-
-    {% end %}
-
+   
     
-    {% block js %}
-        
-    {% end %}
   </head>
 
   <body>
@@ -86,6 +80,7 @@
               &nbsp;
           </div>
           <div class="col-md-10">
+             
             {% block content %}
 
             {% end %}
@@ -102,8 +97,5 @@
       </div> <!-- /container -->
     <!-- /div> <!-- /container -->
     
-    <script src="{{ static_url("js/tether.min.js") }}"></script>
-    <script src="{{ static_url("js/bootstrap.min.js") }}"></script>
-    <script src="https://rawgit.com/enyo/dropzone/master/dist/dropzone.js"></script>
   </body>
 </html>

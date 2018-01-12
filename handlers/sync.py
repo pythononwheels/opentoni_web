@@ -5,6 +5,7 @@ from tornado import gen
 from opentoni_web.models.tinydb.collection import Collection
 
 @app.add_route('/sync', dispatch={"get" : "sync"})
+@app.add_route('/meck', dispatch={"get" : "mecktest"})
 class Sync(BaseHandler):
     # on HTTP GET this method will be called. See dispatch parameter.
     def sync(self, year=None):
@@ -51,4 +52,5 @@ class Sync(BaseHandler):
             
         self.success(message="I got:", data=list(res), model=c, format="json")
     
-    
+    def mecktest(self):
+        self.write("mecktest")

@@ -206,10 +206,10 @@ class ModelObject():
                 else:
                     raise Exception(" Key: " + str(key) + " is not in schema for: " + self.__class__.__name__)
     
-    def to_json(self, *args, default=pow_json_serializer, **kwargs):
+    def to_json(self, *args, default=pow_json_serializer, all=False, **kwargs):
         """ just json """
         #return json.loads(self.json_dumps(*args, **kwargs))
-        return json.dumps(self.to_dict(), *args, default=default, **kwargs)
+        return json.dumps(self.to_dict(all=all), *args, default=default, **kwargs)
     
     
     def res_to_json(self, res):
@@ -236,7 +236,7 @@ class ModelObject():
         return encoder.dumps(self.to_json())
             
 
-    def to_dict(self, lazy=True):
+    def to_dict(self, lazy=True, all=False):
         """
             return vars / attributes of this instance as dict
             raw = True => all (almost: except for those in exclude_list)

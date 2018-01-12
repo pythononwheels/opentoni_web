@@ -67,3 +67,9 @@ class ErrorTestHandler(BaseHandler):
 
 
 
+
+@app.add_route("/tooltip", dispatch={"get" : "test_tooltips"})
+class TooltipTestHandler(BaseHandler):
+    # on HTTP GET this method will be called. See dispatch parameter.
+    def test_tooltips(self):
+        self.render("tooltip.bs4")

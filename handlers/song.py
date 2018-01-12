@@ -49,7 +49,7 @@ class Song(PowHandler):
         print("Song.add_song: Add song to collection:" + str(collection_id))
         print(self.request.body)
         print(self.get_body_argument("testfield", default=None, strip=False))
-        song=Song()
+        song=Model()
         try:
             file1 = self.request.files['file'][0]
             #for key in file1.keys():
@@ -71,11 +71,12 @@ class Song(PowHandler):
             final_filename = os.path.join(myapp["upload_path"], final_filename)
             output_file = open( final_filename, 'wb')
             output_file.write(file1['body'])
-            self.success(message=" final_filename is uploaded", format="json")
+            song.upsert()
+            self.success(message=" final_filename is uploaded", data=song, format="json")
         except: 
             self.error(message=" Error uploading final_filename", format="json")
-        finally:
-            song.upsert()
+        
+            
         
 
     def show(self, id=None):

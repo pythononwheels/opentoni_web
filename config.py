@@ -23,7 +23,9 @@ server_settings = {
     #"log_function"      :   you can give your own log function here.
     "cookie_secret"     :   "3ddc787b-5d69-4842-a06a-5d4e08261333",
     "debug_print"       :   True,
-    "logging"           :   True
+    "logging"           :   True,
+    #"sso_realm"         :   "swbdom03",
+    #"sso_service"       :   "HTTP" # Should pretty much always be HTTP
 }
 
 templates = {
